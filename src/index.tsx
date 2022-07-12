@@ -1,19 +1,32 @@
-import React from 'react';
-import ReactDOM from 'react-dom/client';
-import './index.css';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
+import { Helmet, HelmetProvider } from 'react-helmet-async';
+import { StrictMode } from 'react';
+import { ThemeProvider } from 'styled-components';
+import { createRoot } from 'react-dom/client';
 
-const root = ReactDOM.createRoot(
-  document.getElementById('root') as HTMLElement
-);
+import './translation/i18n';
+import App from 'App';
+import GlobalStyles from 'styles/GlobalStyles';
+import theme from 'styles/themes';
+import { Provider } from 'react-redux';
+import store from 'store/store';
+
+const rootElement = document.getElementById('root') as HTMLElement;
+const root = createRoot(rootElement);
+
 root.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>
+  <StrictMode>
+    <HelmetProvider>
+      <Provider store={store}>
+        <ThemeProvider theme={theme}>
+          <App />
+          <Helmet>
+            <link rel="preconnect" href="https://fonts.googleapis.com" />
+            <link rel="preconnect" href="https://fonts.gstatic.com" />
+            <link href="https://fonts.googleapis.com/css2?family=Anek+Latin:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+          </Helmet>
+          <GlobalStyles />
+        </ThemeProvider>
+      </Provider>
+    </HelmetProvider>
+  </StrictMode>,
 );
-
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-reportWebVitals();
